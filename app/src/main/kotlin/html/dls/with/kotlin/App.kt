@@ -5,6 +5,7 @@ package html.dls.with.kotlin
 
 fun main() {
     with(HtmlDsl) { // this: HTMLDSL
+        html {  }
         /*val result =
             html {  // this: HTML
             }.render()

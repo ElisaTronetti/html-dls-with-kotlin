@@ -6,12 +6,14 @@ object HtmlDsl {
         val name: String = "html"
     }
 
-    class head() {
+    class Head() {
         val name: String = "head"
     }
 
-    class title(){
+    class Title(){
         val name: String = "title"
     }
+
+    fun html(init: HTML.() -> Unit): HTML = HTML().apply(init)
 
 }
