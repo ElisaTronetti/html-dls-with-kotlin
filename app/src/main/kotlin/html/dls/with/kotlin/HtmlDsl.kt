@@ -17,9 +17,13 @@ object HtmlDsl {
             """.trimIndent()
     }
 
-    class HTML() : AbstractTag("html")
+    class HTML() : AbstractTag("html") {
+        fun head(conf: Head.() -> Unit): Head = Head().apply(conf)
+    }
 
-    class Head() : AbstractTag("head")
+    class Head() : AbstractTag("head") {
+        fun title(conf: Title.() -> Unit): Title = Title().apply(conf)
+    }
 
     class Title() : AbstractTag("title")
 
