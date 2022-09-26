@@ -15,9 +15,15 @@ object HtmlDsl {
 
         override fun render(): String =
             """
-            $indent<$name>
-            $indent</$name>
-            """.trimIndent()
+            |$indent<$name>
+            |${renderChild()}
+            |$indent</$name>
+            """.trimMargin()
+
+        private fun renderChild(): String {
+            // render all the children and join the list of string returned
+            return children.joinToString() { it.render() }
+        }
 
         override fun addChild(child: Tag) {
             children = children + child
