@@ -3,13 +3,11 @@
  */
 package html.dls.with.kotlin
 
-class App {
-    val greeting: String
-        get() {
-            return "Hello World!"
-        }
-}
-
 fun main() {
-    println(App().greeting)
+    with(HtmlDsl) { // this: HTMLDSL
+        /*val result =
+            html {  // this: HTML
+            }.render()
+        println(result)*/
+    }
 }
