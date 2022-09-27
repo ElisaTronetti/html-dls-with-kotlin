@@ -1,9 +1,8 @@
 package html.dls.with.kotlin
 
 object HtmlDsl {
-
     interface Element {
-        fun render(): String
+        fun render(indent: String = "  "): String
     }
 
     interface TextElement : Element {
@@ -17,19 +16,18 @@ object HtmlDsl {
     }
 
     abstract class AbstractTag(override val name: String) : Tag {
-        private val indent: String = " "
         override var children: List<Element> = emptyList()
 
-        override fun render(): String =
+        override fun render(indent: String): String =
             """
             |$indent<$name>
-            |${renderChild()}
+            |${renderChild(indent)}
             |$indent</$name>
             """.trimMargin()
 
-        private fun renderChild(): String {
+        private fun renderChild(indent: String): String {
             // render all the children and join the list of string returned
-            return children.joinToString() { it.render() }
+            return children.joinToString() { it.render(indent + indent) }
         }
 
         override fun addChild(child: Element) {
@@ -42,11 +40,10 @@ object HtmlDsl {
     }
 
     class Text(override val text: String) : TextElement {
-        override fun render(): String =
+        override fun render(indent: String): String =
             """
-                |$text
+                |$indent$text
             """.trimMargin()
-
     }
 
     class HTML() : AbstractTag("html") {
