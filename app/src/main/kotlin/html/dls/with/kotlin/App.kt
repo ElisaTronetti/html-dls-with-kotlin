@@ -6,7 +6,7 @@ fun main() {
             // it is like be in HTML class now
             head {
                 title {
-
+                    - "Title content"
                 }
             }
         }.render()
