@@ -35,7 +35,7 @@ object HtmlDsl {
     }
 
     class Head() : AbstractTag("head") {
-        fun title(conf: Title.() -> Unit) = Title().apply(conf)
+        fun title(conf: Title.() -> Unit) = addChild(Title().apply(conf))
     }
 
     class Title() : AbstractTag("title")
