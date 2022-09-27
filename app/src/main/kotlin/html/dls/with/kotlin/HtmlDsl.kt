@@ -1,6 +1,12 @@
 package html.dls.with.kotlin
 
 object HtmlDsl {
+
+    // Allows calling members of the nearest receiver only
+    @DslMarker
+    annotation class HtmlTagMarker
+
+    @HtmlTagMarker
     interface Element {
         fun render(indent: String = "  "): String
     }
