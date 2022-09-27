@@ -52,15 +52,15 @@ object HtmlDsl {
             """.trimMargin()
     }
 
-    class HTML() : AbstractTag("html") {
+    class HTML : AbstractTag("html") {
         fun head(conf: Head.() -> Unit) = addChild(Head().apply(conf))
     }
 
-    class Head() : AbstractTag("head") {
+    class Head : AbstractTag("head") {
         fun title(conf: Title.() -> Unit) = addChild(Title().apply(conf))
     }
 
-    class Title() : AbstractTagWithText("title")
+    class Title : AbstractTagWithText("title")
 
     fun html(init: HTML.() -> Unit): HTML = HTML().apply(init)
 
