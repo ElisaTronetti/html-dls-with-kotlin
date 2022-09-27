@@ -2,16 +2,23 @@ package html.dls.with.kotlin
 
 object HtmlDsl {
 
-    interface Tag {
-        val name: String
-        val children: List<Tag> // a tag might have children that have to be rendered
+    interface Element {
         fun render(): String
-        fun addChild(child: Tag): Unit
+    }
+
+    interface TextElement : Element {
+        val text: String
+    }
+
+    interface Tag : Element {
+        val children: List<Element> // a tag might have children that have to be rendered
+        fun addChild(child: Element): Unit
+        val name: String
     }
 
     abstract class AbstractTag(override val name: String) : Tag {
         private val indent: String = " "
-        override var children: List<Tag> = emptyList()
+        override var children: List<Element> = emptyList()
 
         override fun render(): String =
             """
@@ -25,9 +32,21 @@ object HtmlDsl {
             return children.joinToString() { it.render() }
         }
 
-        override fun addChild(child: Tag) {
+        override fun addChild(child: Element) {
             children = children + child
         }
+    }
+
+    abstract class AbstractTagWithText(override val name: String) : AbstractTag(name) {
+        operator fun String.unaryMinus() = addChild(Text(this))
+    }
+
+    class Text(override val text: String) : TextElement {
+        override fun render(): String =
+            """
+                |$text
+            """.trimMargin()
+
     }
 
     class HTML() : AbstractTag("html") {
@@ -38,7 +57,7 @@ object HtmlDsl {
         fun title(conf: Title.() -> Unit) = addChild(Title().apply(conf))
     }
 
-    class Title() : AbstractTag("title")
+    class Title() : AbstractTagWithText("title")
 
     fun html(init: HTML.() -> Unit): HTML = HTML().apply(init)
 
